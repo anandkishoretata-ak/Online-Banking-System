@@ -69,4 +69,15 @@ body {
   color: white;
   border: none;
 }
+.dark {
+  background: #111827;
+  color: white;
+}
+
+.dark .card,
+.dark .profile-card,
+.dark .history-table {
+  background: #1f2937;
+  color: white;
+}
 

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import "../styles/Banking.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function WithdrawMoney() {
+function DepositMoney() {
   const [amount, setAmount] = useState("");
 
-  const handleWithdraw = (e) => {
+  const handleDeposit = (e) => {
     e.preventDefault();
 
     if (!amount) {
@@ -12,17 +14,19 @@ function WithdrawMoney() {
       return;
     }
 
-    
-    toast.success(`₹${amount} withdrawn successfully`);
+    toast.success(`₹${amount} deposited successfully`);
     setAmount("");
   };
 
   return (
-    <div className="banking-container">
-      <div className="banking-card">
-        <h2>Withdraw Money</h2>
 
-        <form onSubmit={handleWithdraw}>
+                   
+    <div className="banking-container">
+        
+      <div className="banking-card">
+        <h2>Deposit Money</h2>
+
+        <form onSubmit={handleDeposit}>
           <input
             type="number"
             placeholder="Enter Amount"
@@ -33,12 +37,13 @@ function WithdrawMoney() {
           />
 
           <button type="submit">
-            Withdraw
+            Deposit
           </button>
         </form>
       </div>
+       <ToastContainer />
     </div>
   );
 }
 
-export default WithdrawMoney;
+export default DepositMoney;
