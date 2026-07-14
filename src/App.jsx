@@ -22,96 +22,85 @@ import Profile from "./pages/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import NotFound
+from "./pages/NotFound";
+
 function App() {
   return (
+    
     <BrowserRouter>
+  <ToastContainer
+    position="top-right"
+    autoClose={3000}
+  />
 
-      {/* Global Toast Notifications */}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-        theme="light"
-      />
+  <Routes>
+    <Route path="/" element={<Home />} />
 
-      <Routes>
+    <Route path="/login" element={<Login />} />
 
-        {/* Public Routes */}
-        <Route
-          path="/"
-          element={<Home />}
-        />
+    <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/login"
-          element={<Login />}
-        />
+    <Route
+      path="/dashboard"
+      element={
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      }
+    />
 
-        <Route
-          path="/register"
-          element={<Register />}
-        />
+    <Route
+      path="/deposit"
+      element={
+        <ProtectedRoute>
+          <DepositMoney />
+        </ProtectedRoute>
+      }
+    />
 
-        {/* Protected Routes */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+    <Route
+      path="/withdraw"
+      element={
+        <ProtectedRoute>
+          <WithdrawMoney />
+        </ProtectedRoute>
+      }
+    />
 
-        <Route
-          path="/deposit"
-          element={
-            <ProtectedRoute>
-              <DepositMoney />
-            </ProtectedRoute>
-          }
-        />
+    <Route
+      path="/transfer"
+      element={
+        <ProtectedRoute>
+          <TransferMoney />
+        </ProtectedRoute>
+      }
+    />
 
-        <Route
-          path="/withdraw"
-          element={
-            <ProtectedRoute>
-              <WithdrawMoney />
-            </ProtectedRoute>
-          }
-        />
+    <Route
+      path="/history"
+      element={
+        <ProtectedRoute>
+          <TransactionHistory />
+        </ProtectedRoute>
+      }
+    />
 
-        <Route
-          path="/transfer"
-          element={
-            <ProtectedRoute>
-              <TransferMoney />
-            </ProtectedRoute>
-          }
-        />
+    <Route
+      path="/profile"
+      element={
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+      }
+    />
 
-        <Route
-          path="/history"
-          element={
-            <ProtectedRoute>
-              <TransactionHistory />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes>
-    </BrowserRouter>
+    <Route
+      path="*"
+      element={<NotFound />}
+    />
+  </Routes>
+</BrowserRouter>
   );
 }
 
