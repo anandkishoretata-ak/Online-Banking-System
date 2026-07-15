@@ -1,7 +1,5 @@
 import { useState } from "react";
 import "../styles/Banking.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function DepositMoney() {
   const [amount, setAmount] = useState("");
@@ -9,20 +7,37 @@ function DepositMoney() {
   const handleDeposit = (e) => {
     e.preventDefault();
 
-    if (!amount) {
-      alert("Enter amount");
+    if (!amount || Number(amount) <= 0) {
+      alert("Please enter a valid amount.");
       return;
     }
 
-    toast.success(`₹${amount} deposited successfully`);
+    const newTransaction = {
+      type: "Deposit",
+      amount,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+    };
+
+    const transactions =
+      JSON.parse(
+        localStorage.getItem("transactions")
+      ) || [];
+
+    transactions.push(newTransaction);
+
+    localStorage.setItem(
+      "transactions",
+      JSON.stringify(transactions)
+    );
+
+    alert(`₹${amount} deposited successfully!`);
+
     setAmount("");
   };
 
   return (
-
-                   
     <div className="banking-container">
-        
       <div className="banking-card">
         <h2>Deposit Money</h2>
 
@@ -41,7 +56,6 @@ function DepositMoney() {
           </button>
         </form>
       </div>
-       <ToastContainer />
     </div>
   );
 }

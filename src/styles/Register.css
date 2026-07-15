@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-.login-page {
+.register-page {
   min-height: 100vh;
 
   background:
@@ -12,13 +12,13 @@
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5)
     ),
-    url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1600");
+    url("https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1600");
 
   background-size: cover;
   background-position: center;
 }
 
-.login-overlay {
+.register-overlay {
   min-height: 100vh;
 
   display: flex;
@@ -28,8 +28,8 @@
   padding: 20px;
 }
 
-.login-card {
-  width: 420px;
+.register-card {
+  width: 450px;
 
   backdrop-filter: blur(15px);
 
@@ -70,25 +70,25 @@
   margin-bottom: 20px;
 }
 
-.login-card h2 {
+.register-card h2 {
   text-align: center;
   margin-bottom: 10px;
 }
 
-.login-card p {
+.register-card p {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   color: #f1f1f1;
 }
 
-.login-card form {
+.register-card form {
   display: flex;
   flex-direction: column;
 }
 
-.login-card input {
+.register-card input {
   padding: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 15px;
 
   border: none;
   border-radius: 10px;
@@ -96,11 +96,11 @@
   font-size: 16px;
 }
 
-.login-card input:focus {
+.register-card input:focus {
   outline: 2px solid #2563eb;
 }
 
-.login-card button {
+.register-card button {
   padding: 14px;
 
   border: none;
@@ -117,28 +117,28 @@
   transition: 0.3s;
 }
 
-.login-card button:hover {
+.register-card button:hover {
   background: #1d4ed8;
 }
 
-.login-footer {
+.register-footer {
   margin-top: 25px;
   text-align: center;
 }
 
-.login-footer a {
+.register-footer a {
   color: #ffd700;
   margin-left: 6px;
   text-decoration: none;
   font-weight: bold;
 }
 
-.login-footer a:hover {
+.register-footer a:hover {
   text-decoration: underline;
 }
 
 @media (max-width: 500px) {
-  .login-card {
+  .register-card {
     width: 100%;
   }
 }

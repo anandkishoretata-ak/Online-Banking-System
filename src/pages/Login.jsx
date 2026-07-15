@@ -1,81 +1,94 @@
 import { useState } from "react";
-
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/Login.css";
 
 function Login() {
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-  const [email, setEmail] =
-    useState("");
-
-  const [password,
-    setPassword] =
-    useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const user =
-      JSON.parse(
-        localStorage.getItem(
-          "registeredUser"
-        )
-      );
+    const user = JSON.parse(
+      localStorage.getItem("registeredUser")
+    );
 
     if (
-      user?.email === email &&
-      user?.password ===
-        password
+      user &&
+      user.email === email &&
+      user.password === password
     ) {
       localStorage.setItem(
         "isLoggedIn",
         true
       );
 
-      navigate(
-        "/dashboard"
-      );
+      alert("Login Successful!");
+
+      navigate("/dashboard");
     } else {
-      alert(
-        "Invalid Credentials"
-      );
+      alert("Invalid Email or Password");
     }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
+    <div className="login-page">
+      <div className="login-overlay">
 
-      <form
-        onSubmit={
-          handleLogin
-        }
-      >
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) =>
-            setEmail(
-              e.target.value
-            )
-          }
-        />
+        <div className="login-card">
 
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) =>
-            setPassword(
-              e.target.value
-            )
-          }
-        />
+          <div className="bank-logo">
+            🏦 AK BANK
+          </div>
 
-        <button>
-          Login
-        </button>
-      </form>
+          <h2>Welcome Back</h2>
+
+          <p>
+            Securely access your
+            banking account
+          </p>
+
+          <form onSubmit={handleLogin}>
+
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              required
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+              required
+            />
+
+            <button type="submit">
+              Login
+            </button>
+
+          </form>
+
+          <div className="login-footer">
+            Don't have an account?
+
+            <Link to="/register">
+              Register
+            </Link>
+          </div>
+
+        </div>
+
+      </div>
     </div>
   );
 }

@@ -1,73 +1,109 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/Register.css";
 
 function Register() {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    accountNumber: "",
   });
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]:
-        e.target.value
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
-
-    if (
-      !form.name ||
-      !form.email ||
-      !form.password
-    ) {
-      alert("Fill all fields");
-      return;
-    }
 
     localStorage.setItem(
       "registeredUser",
-      JSON.stringify(form)
+      JSON.stringify(formData)
     );
 
-    alert("Registration Successful");
+    alert("Account Registered Successfully!");
 
     navigate("/login");
   };
 
   return (
-    <div className="auth-container">
-      <h2>Create Account</h2>
+    <div className="register-page">
+      <div className="register-overlay">
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          placeholder="Name"
-          onChange={handleChange}
-        />
+        <div className="register-card">
 
-        <input
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-        />
+          <div className="bank-logo">
+            🏦 AK BANK
+          </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-        />
+          <h2>Create Account</h2>
 
-        <button>
-          Register
-        </button>
-      </form>
+          <p>
+            Open your secure digital
+            banking account today
+          </p>
+
+          <form onSubmit={handleRegister}>
+
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="text"
+              name="accountNumber"
+              placeholder="Account Number"
+              value={formData.accountNumber}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <button type="submit">
+              Register Account
+            </button>
+
+          </form>
+
+          <div className="register-footer">
+            Already have an account?
+
+            <Link to="/login">
+              Login
+            </Link>
+          </div>
+
+        </div>
+
+      </div>
     </div>
   );
 }
