@@ -4,12 +4,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #f5f7fb;
+  background: #b4bbca;
 }
 
 .notfound h1 {
   font-size: 100px;
-  color: #2563eb;
+  color: #687faf;
 }
 
 .notfound h2 {
