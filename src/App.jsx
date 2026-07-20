@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
+
 // Pages
 import DepositMoney from "./pages/DepositMoney";
 import WithdrawMoney from "./pages/WithdrawMoney";
@@ -24,6 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import NotFound
 from "./pages/NotFound";
+
 
 function App() {
   return (
@@ -42,13 +44,14 @@ function App() {
     <Route path="/register" element={<Register />} />
 
     <Route
-      path="/dashboard"
-      element={
-        <ProtectedRoute>
-          <Dashboard />
-        </ProtectedRoute>
-      }
-    />
+  path="/dashboard"
+  element={
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  }
+/>
+
 
     <Route
       path="/deposit"
@@ -100,6 +103,7 @@ function App() {
     />
   </Routes>
 </BrowserRouter>
+
 
   );
 }

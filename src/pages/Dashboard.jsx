@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import Sidebar from "../components/Sidebar";
 import BalanceCard from "../components/BalanceCard";
 import TransactionCard from "../components/TransactionCard";
@@ -9,13 +11,19 @@ import UserProfileCard from "../components/UserProfileCard";
 import "../styles/Dashboard.css";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
   const user = JSON.parse(
-    localStorage.getItem("registeredUser")
+    localStorage.getItem("user")
   );
 
   const logout = () => {
-    localStorage.removeItem("isLoggedIn");
-    window.location.href = "/login";
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    alert("Logged Out Successfully");
+
+    navigate("/login");
   };
 
   return (
@@ -26,11 +34,13 @@ function Dashboard() {
 
         {/* Top Bar */}
         <div className="top-bar">
+
           <h2>
             Welcome, {user?.name || "User"}
           </h2>
 
           <div className="top-actions">
+
             <DarkModeToggle />
 
             <button
@@ -39,11 +49,14 @@ function Dashboard() {
             >
               Logout
             </button>
+
           </div>
+
         </div>
 
         {/* Statistics Cards */}
         <div className="cards">
+
           <BalanceCard />
 
           <TransactionCard />
@@ -62,6 +75,7 @@ function Dashboard() {
             <h3>Last Transfer</h3>
             <h1>₹2,000</h1>
           </div>
+
         </div>
 
         {/* Quick Actions */}
@@ -69,9 +83,11 @@ function Dashboard() {
 
         {/* User Widgets */}
         <div className="cards">
+
           <RecentTransactions />
 
           <UserProfileCard />
+
         </div>
 
       </div>
