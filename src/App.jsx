@@ -67,6 +67,7 @@ function App() {
         </ProtectedRoute>
       }
     />
+    
 
     <Route
       path="/transfer"
@@ -76,15 +77,13 @@ function App() {
         </ProtectedRoute>
       }
     />
-
     <Route
       path="/history"
-      element={
-        <ProtectedRoute>
-          <TransactionHistory />
-        </ProtectedRoute>
-      }
-    />
+      element={<TransactionHistory />}
+          />
+
+    
+    
 
     <Route
       path="/profile"
@@ -101,6 +100,7 @@ function App() {
     />
   </Routes>
 </BrowserRouter>
+
   );
 }
 
