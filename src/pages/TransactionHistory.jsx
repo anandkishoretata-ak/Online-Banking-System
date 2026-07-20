@@ -1,64 +1,44 @@
 
-import Sidebar from "../components/Sidebar";
-import "../styles/Dashboard.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function TransactionHistory() {
-  const transactions =
-    JSON.parse(
-      localStorage.getItem("transactions")
-    ) || [];
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    axios
+      .get(`http://localhost:8000/api/transactions/${user._id}`)
+      .then((res) => setTransactions(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
-    <div className="dashboard">
-      <Sidebar />
+    <div className="container">
+      <h2>Transaction History</h2>
 
-      <div className="main-content">
-        <h2>Transaction History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Date</th>
+          </tr>
+        </thead>
 
-        <table className="history-table">
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Account</th>
-              <th>Date</th>
-              <th>Time</th>
+        <tbody>
+          {transactions.map((t) => (
+            <tr key={t._id}>
+              <td>{t.type}</td>
+              <td>₹{t.amount}</td>
+              <td>
+                {new Date(t.createdAt).toLocaleString()}
+              </td>
             </tr>
-          </thead>
-
-          <tbody>
-            {transactions.length > 0 ? (
-              transactions.map(
-                (item, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.type}</td>
-                    <td>₹{item.amount}</td>
-                    <td>
-                      {item.accountNumber ||
-                        "-"}
-                    </td>
-                    <td>{item.date}</td>
-                    <td>{item.time}</td>
-                  </tr>
-                )
-              )
-            ) : (
-              <tr>
-                <td
-                  colSpan="6"
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  No Transactions Found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
