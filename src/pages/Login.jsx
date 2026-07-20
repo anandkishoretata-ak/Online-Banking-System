@@ -1,5 +1,7 @@
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import "../styles/Login.css";
 
 function Login() {
@@ -8,28 +10,37 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const user = JSON.parse(
-      localStorage.getItem("registeredUser")
-    );
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
-    if (
-      user &&
-      user.email === email &&
-      user.password === password
-    ) {
       localStorage.setItem(
-        "isLoggedIn",
-        true
+        "token",
+        response.data.token
+      );
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(response.data.user)
       );
 
       alert("Login Successful!");
 
       navigate("/dashboard");
-    } else {
-      alert("Invalid Email or Password");
+
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+        "Login Failed"
+      );
     }
   };
 
@@ -46,8 +57,7 @@ function Login() {
           <h2>Welcome Back</h2>
 
           <p>
-            Securely access your
-            banking account
+            Securely access your banking account
           </p>
 
           <form onSubmit={handleLogin}>
@@ -79,11 +89,12 @@ function Login() {
           </form>
 
           <div className="login-footer">
-            Don't have an account?
+            Don't have an account?{" "}
 
             <Link to="/register">
               Register
             </Link>
+
           </div>
 
         </div>
