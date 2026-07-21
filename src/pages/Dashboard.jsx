@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Sidebar from "../components/Sidebar";
@@ -12,6 +13,14 @@ import "../styles/Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const user = JSON.parse(
     localStorage.getItem("user")
@@ -32,15 +41,12 @@ function Dashboard() {
 
       <div className="main-content">
 
-        {/* Top Bar */}
         <div className="top-bar">
-
           <h2>
             Welcome, {user?.name || "User"}
           </h2>
 
           <div className="top-actions">
-
             <DarkModeToggle />
 
             <button
@@ -49,14 +55,10 @@ function Dashboard() {
             >
               Logout
             </button>
-
           </div>
-
         </div>
 
-        {/* Statistics Cards */}
         <div className="cards">
-
           <BalanceCard />
 
           <TransactionCard />
@@ -75,19 +77,13 @@ function Dashboard() {
             <h3>Last Transfer</h3>
             <h1>₹2,000</h1>
           </div>
-
         </div>
 
-        {/* Quick Actions */}
         <QuickActions />
 
-        {/* User Widgets */}
         <div className="cards">
-
           <RecentTransactions />
-
           <UserProfileCard />
-
         </div>
 
       </div>
