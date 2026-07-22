@@ -1,17 +1,19 @@
 import { useState } from "react";
+import { FaMoneyCheckAlt } from "react-icons/fa";
+import axios from "axios";
 import "../styles/Banking.css";
 
 function TransferMoney() {
-  const [accountNumber, setAccountNumber] =
+  const [receiverEmail, setReceiverEmail] =
     useState("");
 
   const [amount, setAmount] =
     useState("");
 
-  const handleTransfer = (e) => {
+  const handleTransfer = async (e) => {
     e.preventDefault();
 
-    if (!accountNumber || !amount) {
+    if (!receiverEmail || !amount) {
       alert("Please fill all fields.");
       return;
     }
@@ -21,49 +23,57 @@ function TransferMoney() {
       return;
     }
 
-    const newTransaction = {
-      type: "Transfer",
-      amount,
-      accountNumber,
-      date: new Date().toLocaleDateString(),
-      time: new Date().toLocaleTimeString(),
-    };
+    try {
+      const token =
+        localStorage.getItem("token");
 
-    const transactions =
-      JSON.parse(
-        localStorage.getItem("transactions")
-      ) || [];
+      const res = await axios.post(
+        "http://localhost:8000/api/account/transfer",
+        {
+          receiverEmail,
+          amount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    transactions.push(newTransaction);
+      alert(res.data.message);
 
-    localStorage.setItem(
-      "transactions",
-      JSON.stringify(transactions)
-    );
+      setReceiverEmail("");
+      setAmount("");
 
-    alert(
-      `₹${amount} transferred successfully to Account No: ${accountNumber}`
-    );
-
-    setAccountNumber("");
-    setAmount("");
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+        "Transfer Failed"
+      );
+    }
   };
 
   return (
     <div className="banking-container">
       <div className="banking-card">
-        <h2>Transfer Money</h2>
+
+        <h2>
+  <FaMoneyCheckAlt />
+  {" "}Transfer Money
+</h2>
 
         <form onSubmit={handleTransfer}>
+
           <input
-            type="text"
-            placeholder="Account Number"
-            value={accountNumber}
+            type="email"
+            placeholder="Receiver Email"
+            value={receiverEmail}
             onChange={(e) =>
-              setAccountNumber(
+              setReceiverEmail(
                 e.target.value
               )
             }
+            required
           />
 
           <input
@@ -75,12 +85,15 @@ function TransferMoney() {
                 e.target.value
               )
             }
+            required
           />
 
           <button type="submit">
-            Transfer
+            Transfer Money
           </button>
+
         </form>
+
       </div>
     </div>
   );

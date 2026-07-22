@@ -1,47 +1,125 @@
+/* Full Page */
 .banking-container {
   min-height: 100vh;
-  background: #f5f7fb;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #1e3a8a,
+    #0ea5e9
+  );
+
+  padding: 20px;
 }
 
+/* Glass Card */
 .banking-card {
-  width: 400px;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-}
+  width: 450px;
 
-.banking-card h2 {
+  background: rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(15px);
+
+  border-radius: 25px;
+
+  padding: 35px;
+
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+
   text-align: center;
-  margin-bottom: 20px;
-  color: #1e40af;
+
+  color: white;
+
+  animation: fadeIn 0.8s ease;
 }
 
+/* Heading */
+.banking-card h2 {
+  margin-bottom: 25px;
+
+  font-size: 2rem;
+
+  color: #ffffff;
+}
+
+/* Form */
 .banking-card form {
   display: flex;
   flex-direction: column;
+  gap: 18px;
 }
 
+/* Inputs */
 .banking-card input {
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  outline: none;
+
+  font-size: 16px;
+
+  background: rgba(255, 255, 255, 0.9);
 }
 
+/* Button */
 .banking-card button {
-  padding: 12px;
+  padding: 15px;
+
   border: none;
-  border-radius: 6px;
-  background: #2563eb;
-  color: white;
-  cursor: pointer;
+
+  border-radius: 12px;
+
   font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #3b82f6
+  );
+
+  color: white;
+
+  transition: all 0.3s ease;
 }
 
 .banking-card button:hover {
-  background: #1e40af;
+  transform: translateY(-3px);
+
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+  .banking-card {
+    width: 95%;
+    padding: 25px;
+  }
+
+  .banking-card h2 {
+    font-size: 1.6rem;
+  }
 }

@@ -1,0 +1,89 @@
+.history-page {
+  min-height: 100vh;
+  padding: 30px;
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #1e3a8a,
+    #0ea5e9
+  );
+
+  color: rgb(179, 27, 27);
+}
+
+.history-header {
+  margin-bottom: 25px;
+}
+
+.history-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.history-header p {
+  color: #c5bfbf;
+}
+
+.history-card {
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(12px);
+
+  border-radius: 20px;
+
+  padding: 25px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th {
+  padding: 16px;
+  text-align: left;
+
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.history-table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.history-table tr:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.badge {
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge.deposit {
+  background: #22c55e;
+}
+
+.badge.withdraw {
+  background: #ef4444;
+}
+
+.badge.transfer {
+  background: #3b82f6;
+}
+
+@media (max-width: 768px) {
+  .history-table {
+    font-size: 14px;
+  }
+
+  .history-header h1 {
+    font-size: 1.8rem;
+  }
+}
