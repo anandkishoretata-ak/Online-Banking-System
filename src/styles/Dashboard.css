@@ -318,3 +318,50 @@
 .balance-toggle-btn:hover {
   background: rgba(255,255,255,0.35);
 }
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.profile-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:white;
+  padding:8px 12px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.profile-img{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:2px solid #2563eb;
+}
+
+.profile-info h4{
+  margin:0;
+  font-size:14px;
+  color:#111827;
+}
+
+.profile-info span{
+  font-size:12px;
+  color:#6b7280;
+}
+
+.show-btn{
+  padding:10px 15px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.show-btn:hover{
+  background:#1d4ed8;
+}
