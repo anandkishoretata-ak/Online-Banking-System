@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function BalanceCard() {
+function BalanceCard({ showAmount }) {
   const [balance, setBalance] =
     useState(0);
-
-  const [showBalance, setShowBalance] =
-    useState(false);
 
   useEffect(() => {
     const fetchBalance = async () => {
@@ -38,21 +35,10 @@ function BalanceCard() {
       <h3>💰 Account Balance</h3>
 
       <h1>
-        {showBalance
+        {showAmount
           ? `₹${balance.toLocaleString()}`
-          : "₹ ••••••"}
+          : "••••••"}
       </h1>
-
-      <button
-        className="balance-toggle-btn"
-        onClick={() =>
-          setShowBalance(!showBalance)
-        }
-      >
-        {showBalance
-          ? "🙈 Hide Balance"
-          : "👁 Show Balance"}
-      </button>
     </div>
   );
 }
