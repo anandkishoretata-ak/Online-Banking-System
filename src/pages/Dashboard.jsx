@@ -2,6 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
 import Sidebar from "../components/Sidebar";
 import BalanceCard from "../components/BalanceCard";
 import TransactionCard from "../components/TransactionCard";
@@ -30,6 +39,14 @@ function Dashboard() {
       localStorage.getItem("user")
     ) || {};
 
+  const [profileImage, setProfileImage] =
+    useState(
+      user?.profileImage ||
+        `https://ui-avatars.com/api/?name=${
+          user?.name || "User"
+        }&background=2563eb&color=fff`
+    );
+
   useEffect(() => {
     const token =
       localStorage.getItem("token");
@@ -55,24 +72,108 @@ function Dashboard() {
         );
 
         setStats(res.data);
-
       } catch (error) {
         console.log(error);
       }
     };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  const uploadProfilePhoto =
+    async (e) => {
+      try {
+        const file =
+          e.target.files[0];
 
-    alert("Logged Out Successfully");
+        if (!file) return;
+
+        const formData =
+          new FormData();
+
+        formData.append(
+          "image",
+          file
+        );
+
+        const token =
+          localStorage.getItem(
+            "token"
+          );
+
+        const res =
+          await axios.post(
+            "http://localhost:8000/api/users/upload-profile",
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+        setProfileImage(
+          res.data.image
+        );
+
+        const updatedUser = {
+          ...user,
+          profileImage:
+            res.data.image,
+        };
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(
+            updatedUser
+          )
+        );
+
+        alert(
+          "Profile Photo Updated Successfully"
+        );
+
+      } catch (error) {
+        console.log(error);
+        alert(
+          "Failed to upload photo"
+        );
+      }
+    };
+
+  const logout = () => {
+    localStorage.removeItem(
+      "token"
+    );
+
+    localStorage.removeItem(
+      "user"
+    );
+
+    alert(
+      "Logged Out Successfully"
+    );
 
     navigate("/login");
   };
 
+  const chartData = [
+    {
+      name: "Deposits",
+      amount:
+        stats.totalDeposits,
+    },
+    {
+      name: "Withdrawals",
+      amount:
+        stats.totalWithdrawals,
+    },
+    {
+      name: "Transfer",
+      amount:
+        stats.lastTransfer,
+    },
+  ];
+
   return (
     <div className="dashboard">
-
       <Sidebar />
 
       <div className="main-content">
@@ -82,11 +183,14 @@ function Dashboard() {
 
           <div>
             <h2>
-              Welcome, {user?.name || "User"} 👋
+              Welcome,{" "}
+              {user?.name ||
+                "User"} 👋
             </h2>
 
             <p>
-              Manage your banking account securely.
+              Manage your banking
+              account securely.
             </p>
           </div>
 
@@ -97,7 +201,9 @@ function Dashboard() {
             <button
               className="show-btn"
               onClick={() =>
-                setShowAmount(!showAmount)
+                setShowAmount(
+                  !showAmount
+                )
               }
             >
               {showAmount
@@ -105,19 +211,32 @@ function Dashboard() {
                 : "👁 Show Amounts"}
             </button>
 
-            {/* User Profile */}
             <div className="profile-box">
 
-              <img
-                src={`https://ui-avatars.com/api/?name=${user?.name || "User"}&background=2563eb&color=fff&size=128`}
-                alt="Profile"
-                className="profile-img"
-              />
+              <div>
+                <img
+                  src={profileImage}
+                  alt="Profile"
+                  className="profile-img"
+                />
+
+                <label className="upload-btn">
+                  Upload Photo
+
+                  <input
+                    type="file"
+                    hidden
+                    onChange={
+                      uploadProfilePhoto
+                    }
+                  />
+                </label>
+              </div>
 
               <div className="profile-info">
 
                 <h4>
-                  {user?.name || "User"}
+                  {user?.name}
                 </h4>
 
                 <span>
@@ -127,8 +246,9 @@ function Dashboard() {
                 <small>
                   A/C No:
                   {" "}
-                  {user?.accountNumber ||
-                    "Not Available"}
+                  {
+                    user?.accountNumber
+                  }
                 </small>
 
               </div>
@@ -143,20 +263,23 @@ function Dashboard() {
             </button>
 
           </div>
-
         </div>
 
         {/* Statistics Cards */}
         <div className="cards">
 
           <BalanceCard
-            showAmount={showAmount}
+            showAmount={
+              showAmount
+            }
           />
 
           <TransactionCard />
 
           <div className="card">
-            <h3>Total Deposits</h3>
+            <h3>
+              Total Deposits
+            </h3>
 
             <h1>
               {showAmount
@@ -166,7 +289,9 @@ function Dashboard() {
           </div>
 
           <div className="card">
-            <h3>Total Withdrawals</h3>
+            <h3>
+              Total Withdrawals
+            </h3>
 
             <h1>
               {showAmount
@@ -176,7 +301,9 @@ function Dashboard() {
           </div>
 
           <div className="card">
-            <h3>Last Transfer</h3>
+            <h3>
+              Last Transfer
+            </h3>
 
             <h1>
               {showAmount
@@ -187,10 +314,32 @@ function Dashboard() {
 
         </div>
 
-        {/* Quick Actions */}
         <QuickActions />
 
-        {/* Dashboard Widgets */}
+        {/* Analytics */}
+        <div className="card">
+
+          <h3>
+            📊 Banking Analytics
+          </h3>
+
+          <ResponsiveContainer
+            width="100%"
+            height={300}
+          >
+            <BarChart
+              data={chartData}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="amount" />
+            </BarChart>
+          </ResponsiveContainer>
+
+        </div>
+
+        {/* Widgets */}
         <div className="dashboard-grid">
 
           <RecentTransactions />
@@ -200,7 +349,6 @@ function Dashboard() {
         </div>
 
       </div>
-
     </div>
   );
 }

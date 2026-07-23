@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
@@ -46,6 +48,72 @@ function TransactionHistory() {
     fetchTransactions();
   }, []);
 
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+
+    const user =
+      JSON.parse(
+        localStorage.getItem("user")
+      ) || {};
+
+    doc.setFontSize(18);
+    doc.text(
+      "AK BANK - Account Statement",
+      14,
+      20
+    );
+
+    doc.setFontSize(12);
+
+    doc.text(
+      `Account Holder: ${user.name}`,
+      14,
+      30
+    );
+
+    doc.text(
+      `Account Number: ${
+        user.accountNumber || "N/A"
+      }`,
+      14,
+      38
+    );
+
+    doc.text(
+      `Generated: ${new Date().toLocaleString()}`,
+      14,
+      46
+    );
+
+    autoTable(doc, {
+      startY: 55,
+
+      head: [
+        [
+          "Type",
+          "Amount",
+          "Receiver",
+          "Date & Time",
+        ],
+      ],
+
+      body: transactions.map(
+        (t) => [
+          t.type,
+          `₹${t.amount}`,
+          t.receiver || "-",
+          new Date(
+            t.createdAt
+          ).toLocaleString(),
+        ]
+      ),
+    });
+
+    doc.save(
+      "AK_BANK_STATEMENT.pdf"
+    );
+  };
+
   return (
     <div className="dashboard">
 
@@ -68,6 +136,13 @@ function TransactionHistory() {
               withdrawals and transfers.
             </p>
 
+            <button
+              className="download-btn"
+              onClick={downloadPDF}
+            >
+              📥 Download Statement
+            </button>
+
           </div>
 
           <div className="history-card">
@@ -89,6 +164,7 @@ function TransactionHistory() {
                   <tr>
                     <th>Type</th>
                     <th>Amount</th>
+                    <th>Receiver</th>
                     <th>Date & Time</th>
                   </tr>
                 </thead>
@@ -108,6 +184,10 @@ function TransactionHistory() {
 
                       <td>
                         ₹{t.amount}
+                      </td>
+
+                      <td>
+                        {t.receiver || "-"}
                       </td>
 
                       <td>

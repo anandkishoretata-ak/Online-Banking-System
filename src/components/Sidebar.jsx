@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+
 import {
   FaHome,
   FaMoneyBillWave,
@@ -6,6 +7,8 @@ import {
   FaExchangeAlt,
   FaHistory,
   FaUser,
+  FaUserEdit,
+  FaLock,
   FaSignOutAlt,
 } from "react-icons/fa";
 
@@ -13,17 +16,22 @@ function Sidebar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     localStorage.removeItem("isLoggedIn");
+
     navigate("/login");
   };
 
   return (
     <div className="sidebar">
+
       <div className="sidebar-header">
         <h2>🏦 AK Bank</h2>
       </div>
 
       <ul className="sidebar-menu">
+
         <li>
           <NavLink
             to="/dashboard"
@@ -80,7 +88,19 @@ function Sidebar() {
             }
           >
             <FaHistory />
-            <span>History</span>
+            <span>Transaction History</span>
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to="/edit-profile"
+            className={({ isActive }) =>
+              isActive ? "active-link" : ""
+            }
+          >
+            <FaUserEdit />
+            <span>Edit Profile</span>
           </NavLink>
         </li>
 
@@ -95,6 +115,19 @@ function Sidebar() {
             <span>Profile</span>
           </NavLink>
         </li>
+
+        <li>
+          <NavLink
+            to="/change-password"
+            className={({ isActive }) =>
+              isActive ? "active-link" : ""
+            }
+          >
+            <FaLock />
+            <span>Change Password</span>
+          </NavLink>
+        </li>
+
       </ul>
 
       <button
@@ -102,8 +135,9 @@ function Sidebar() {
         onClick={handleLogout}
       >
         <FaSignOutAlt />
-        Logout
+        <span>Logout</span>
       </button>
+
     </div>
   );
 }
