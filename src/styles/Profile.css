@@ -1,6 +1,6 @@
 .profile-card {
   width: 500px;
-  background: rgb(18, 53, 225);
+  background: rgb(72, 87, 155);
   padding: 30px;
   border-radius: 12px;
   margin: auto;
@@ -16,7 +16,7 @@
   width: 100%;
   padding: 12px;
   margin-bottom: 15px;
-  border: 1px solid #1815ea;
+  border: 1px solid #0f0d6f;
   border-radius: 6px;
 }
 
@@ -24,7 +24,7 @@
   width: 100%;
   padding: 12px;
   border: none;
-  background: #2563eb;
+  background: #336be3;
   color: rgb(231, 213, 213);
   border-radius: 6px;
   cursor: pointer;
