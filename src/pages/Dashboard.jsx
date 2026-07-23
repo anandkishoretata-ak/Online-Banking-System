@@ -25,6 +25,11 @@ function Dashboard() {
       lastTransfer: 0,
     });
 
+  const user =
+    JSON.parse(
+      localStorage.getItem("user")
+    ) || {};
+
   useEffect(() => {
     const token =
       localStorage.getItem("token");
@@ -56,10 +61,6 @@ function Dashboard() {
       }
     };
 
-  const user = JSON.parse(
-    localStorage.getItem("user")
-  );
-
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -71,12 +72,14 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
+
       <Sidebar />
 
       <div className="main-content">
 
         {/* Header */}
         <div className="top-bar">
+
           <div>
             <h2>
               Welcome, {user?.name || "User"} 👋
@@ -102,6 +105,36 @@ function Dashboard() {
                 : "👁 Show Amounts"}
             </button>
 
+            {/* User Profile */}
+            <div className="profile-box">
+
+              <img
+                src={`https://ui-avatars.com/api/?name=${user?.name || "User"}&background=2563eb&color=fff&size=128`}
+                alt="Profile"
+                className="profile-img"
+              />
+
+              <div className="profile-info">
+
+                <h4>
+                  {user?.name || "User"}
+                </h4>
+
+                <span>
+                  {user?.email}
+                </span>
+
+                <small>
+                  A/C No:
+                  {" "}
+                  {user?.accountNumber ||
+                    "Not Available"}
+                </small>
+
+              </div>
+
+            </div>
+
             <button
               className="logout-btn"
               onClick={logout}
@@ -110,12 +143,15 @@ function Dashboard() {
             </button>
 
           </div>
+
         </div>
 
         {/* Statistics Cards */}
         <div className="cards">
 
-          <BalanceCard />
+          <BalanceCard
+            showAmount={showAmount}
+          />
 
           <TransactionCard />
 
@@ -154,7 +190,7 @@ function Dashboard() {
         {/* Quick Actions */}
         <QuickActions />
 
-        {/* Widgets */}
+        {/* Dashboard Widgets */}
         <div className="dashboard-grid">
 
           <RecentTransactions />
@@ -164,6 +200,7 @@ function Dashboard() {
         </div>
 
       </div>
+
     </div>
   );
 }
