@@ -1,76 +1,39 @@
-import { useState } from "react";
 import Sidebar from "../components/Sidebar";
-import "../styles/Profile.css";
+import ProfileHeader from "../components/ProfileHeader";
 
 function Profile() {
-  const userData =
-    JSON.parse(
-      localStorage.getItem("registeredUser")
-    ) || {};
-
-  const [name, setName] =
-    useState(userData.name || "");
-
-  const [email, setEmail] =
-    useState(userData.email || "");
-
-  const [phone, setPhone] =
-    useState("9876543210");
-
-  const handleUpdate = () => {
-    const updatedUser = {
-      ...userData,
-      name,
-      email,
-    };
-
-    localStorage.setItem(
-      "registeredUser",
-      JSON.stringify(updatedUser)
-    );
-
-    alert("Profile Updated Successfully");
-  };
+  const user =
+    JSON.parse(localStorage.getItem("user")) || {};
 
   return (
     <div className="dashboard">
       <Sidebar />
 
       <div className="main-content">
-        <div className="profile-card">
+        <ProfileHeader />
 
-          <h2>My Profile</h2>
+        <div className="card">
+          <h2>👤 My Profile</h2>
 
-          <input
-            type="text"
-            value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
-          />
+          <p>
+            <strong>Name:</strong>{" "}
+            {user.name}
+          </p>
 
-          <input
-            type="email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-          />
+          <p>
+            <strong>Email:</strong>{" "}
+            {user.email}
+          </p>
 
-          <input
-            type="text"
-            value={phone}
-            onChange={(e) =>
-              setPhone(e.target.value)
-            }
-          />
+          <p>
+            <strong>Account Number:</strong>{" "}
+            {user.accountNumber}
+          </p>
 
-          <button
-            onClick={handleUpdate}
-          >
-            Update Profile
-          </button>
-
+          <p>
+            <strong>Balance:</strong> ₹
+            {user.balance}
+          </p>
         </div>
       </div>
     </div>
