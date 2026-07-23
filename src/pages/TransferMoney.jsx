@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { FaMoneyCheckAlt } from "react-icons/fa";
 import axios from "axios";
+import { FaMoneyCheckAlt } from "react-icons/fa";
+
+import Sidebar from "../components/Sidebar";
+import ProfileHeader from "../components/ProfileHeader";
+
 import "../styles/Banking.css";
 
 function TransferMoney() {
-  const [receiverEmail, setReceiverEmail] =
+  const [accountNumber, setAccountNumber] =
     useState("");
 
   const [amount, setAmount] =
@@ -13,13 +17,8 @@ function TransferMoney() {
   const handleTransfer = async (e) => {
     e.preventDefault();
 
-    if (!receiverEmail || !amount) {
-      alert("Please fill all fields.");
-      return;
-    }
-
-    if (Number(amount) <= 0) {
-      alert("Please enter a valid amount.");
+    if (!accountNumber || !amount) {
+      alert("Please fill all fields");
       return;
     }
 
@@ -30,8 +29,8 @@ function TransferMoney() {
       const res = await axios.post(
         "http://localhost:8000/api/account/transfer",
         {
-          receiverEmail,
-          amount,
+          accountNumber,
+          amount: Number(amount),
         },
         {
           headers: {
@@ -42,8 +41,7 @@ function TransferMoney() {
 
       alert(res.data.message);
 
-      setReceiverEmail("");
-      setAmount("");
+      window.location.href = "/dashboard";
 
     } catch (error) {
       alert(
@@ -54,46 +52,53 @@ function TransferMoney() {
   };
 
   return (
-    <div className="banking-container">
-      <div className="banking-card">
+    <div className="dashboard">
+      <Sidebar />
 
-        <h2>
-  <FaMoneyCheckAlt />
-  {" "}Transfer Money
-</h2>
+      <div className="main-content">
+        <ProfileHeader />
 
-        <form onSubmit={handleTransfer}>
+        <div className="banking-container">
+          <div className="banking-card">
 
-          <input
-            type="email"
-            placeholder="Receiver Email"
-            value={receiverEmail}
-            onChange={(e) =>
-              setReceiverEmail(
-                e.target.value
-              )
-            }
-            required
-          />
+            <h2>
+              <FaMoneyCheckAlt /> Transfer Money
+            </h2>
 
-          <input
-            type="number"
-            placeholder="Amount"
-            value={amount}
-            onChange={(e) =>
-              setAmount(
-                e.target.value
-              )
-            }
-            required
-          />
+            <form onSubmit={handleTransfer}>
 
-          <button type="submit">
-            Transfer Money
-          </button>
+              <input
+                type="text"
+                placeholder="Receiver Account Number"
+                value={accountNumber}
+                onChange={(e) =>
+                  setAccountNumber(
+                    e.target.value
+                  )
+                }
+                required
+              />
 
-        </form>
+              <input
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) =>
+                  setAmount(
+                    e.target.value
+                  )
+                }
+                required
+              />
 
+              <button type="submit">
+                Transfer Money
+              </button>
+
+            </form>
+
+          </div>
+        </div>
       </div>
     </div>
   );
