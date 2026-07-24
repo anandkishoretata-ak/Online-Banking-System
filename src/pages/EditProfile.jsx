@@ -11,30 +11,45 @@ function EditProfile() {
     ) || {};
 
   const [name, setName] =
-    useState(storedUser.name || "");
+    useState(
+      storedUser.name || ""
+    );
 
   const [email, setEmail] =
-    useState(storedUser.email || "");
+    useState(
+      storedUser.email || ""
+    );
 
-  const handleUpdate = async (e) => {
+  const profileImage =
+    localStorage.getItem(
+      "profileImage"
+    ) ||
+    `https://ui-avatars.com/api/?name=${storedUser?.name}&background=2563eb&color=fff&size=200`;
+
+  const handleUpdate = async (
+    e
+  ) => {
     e.preventDefault();
 
     try {
       const token =
-        localStorage.getItem("token");
+        localStorage.getItem(
+          "token"
+        );
 
-      const res = await axios.put(
-        "http://localhost:8000/api/user/update-profile",
-        {
-          name,
-          email,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+      const res =
+        await axios.put(
+          "http://localhost:8000/api/user/update-profile",
+          {
+            name,
+            email,
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
       localStorage.setItem(
         "user",
@@ -43,12 +58,15 @@ function EditProfile() {
         )
       );
 
-      alert(res.data.message);
+      alert(
+        res.data.message
+      );
 
     } catch (error) {
       alert(
-        error.response?.data?.message ||
-        "Profile update failed"
+        error.response?.data
+          ?.message ||
+          "Profile update failed"
       );
     }
   };
@@ -58,23 +76,58 @@ function EditProfile() {
       <Sidebar />
 
       <div className="main-content">
+
         <div className="banking-container">
+
           <div className="banking-card">
 
             <h2>
               👤 Edit Profile
             </h2>
 
+            <div
+              style={{
+                textAlign:
+                  "center",
+                marginBottom:
+                  "20px",
+              }}
+            >
+              <img
+                src={
+                  profileImage
+                }
+                alt="Profile"
+                style={{
+                  width:
+                    "120px",
+                  height:
+                    "120px",
+                  borderRadius:
+                    "50%",
+                  objectFit:
+                    "cover",
+                  border:
+                    "3px solid #2563eb",
+                }}
+              />
+            </div>
+
             <form
-              onSubmit={handleUpdate}
+              onSubmit={
+                handleUpdate
+              }
             >
               <input
                 type="text"
                 placeholder="Full Name"
                 value={name}
-                onChange={(e) =>
+                onChange={(
+                  e
+                ) =>
                   setName(
-                    e.target.value
+                    e.target
+                      .value
                   )
                 }
                 required
@@ -84,9 +137,12 @@ function EditProfile() {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) =>
+                onChange={(
+                  e
+                ) =>
                   setEmail(
-                    e.target.value
+                    e.target
+                      .value
                   )
                 }
                 required
@@ -101,7 +157,9 @@ function EditProfile() {
             </form>
 
           </div>
+
         </div>
+
       </div>
     </div>
   );
