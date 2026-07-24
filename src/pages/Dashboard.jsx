@@ -41,7 +41,8 @@ function Dashboard() {
 
   const [profileImage, setProfileImage] =
     useState(
-      user?.profileImage ||
+      localStorage.getItem("profileImage") ||
+        user?.profileImage ||
         `https://ui-avatars.com/api/?name=${
           user?.name || "User"
         }&background=2563eb&color=fff`
@@ -105,16 +106,30 @@ function Dashboard() {
             {
               headers: {
                 Authorization: `Bearer ${token}`,
+                "Content-Type":
+                  "multipart/form-data",
               },
             }
           );
+
+        console.log(
+          "UPLOAD RESPONSE:",
+          res.data
+        );
 
         setProfileImage(
           res.data.image
         );
 
+        const currentUser =
+          JSON.parse(
+            localStorage.getItem(
+              "user"
+            )
+          ) || {};
+
         const updatedUser = {
-          ...user,
+          ...currentUser,
           profileImage:
             res.data.image,
         };
@@ -126,14 +141,21 @@ function Dashboard() {
           )
         );
 
+        localStorage.setItem(
+          "profileImage",
+          res.data.image
+        );
+
         alert(
           "Profile Photo Updated Successfully"
         );
-
       } catch (error) {
         console.log(error);
+
         alert(
-          "Failed to upload photo"
+          error.response?.data
+            ?.message ||
+            "Failed to upload photo"
         );
       }
     };
@@ -145,6 +167,10 @@ function Dashboard() {
 
     localStorage.removeItem(
       "user"
+    );
+
+    localStorage.removeItem(
+      "profileImage"
     );
 
     alert(
@@ -214,10 +240,18 @@ function Dashboard() {
             <div className="profile-box">
 
               <div>
+
                 <img
                   src={profileImage}
                   alt="Profile"
                   className="profile-img"
+                  onError={(e) => {
+                    e.target.src =
+                      `https://ui-avatars.com/api/?name=${
+                        user?.name ||
+                        "User"
+                      }&background=2563eb&color=fff`;
+                  }}
                 />
 
                 <label className="upload-btn">
@@ -226,11 +260,13 @@ function Dashboard() {
                   <input
                     type="file"
                     hidden
+                    accept="image/*"
                     onChange={
                       uploadProfilePhoto
                     }
                   />
                 </label>
+
               </div>
 
               <div className="profile-info">
@@ -244,8 +280,7 @@ function Dashboard() {
                 </span>
 
                 <small>
-                  A/C No:
-                  {" "}
+                  A/C No:{" "}
                   {
                     user?.accountNumber
                   }
@@ -263,9 +298,10 @@ function Dashboard() {
             </button>
 
           </div>
+
         </div>
 
-        {/* Statistics Cards */}
+        {/* Statistics */}
         <div className="cards">
 
           <BalanceCard
@@ -318,7 +354,6 @@ function Dashboard() {
 
         {/* Analytics */}
         <div className="card">
-
           <h3>
             📊 Banking Analytics
           </h3>
@@ -336,7 +371,6 @@ function Dashboard() {
               <Bar dataKey="amount" />
             </BarChart>
           </ResponsiveContainer>
-
         </div>
 
         {/* Widgets */}
