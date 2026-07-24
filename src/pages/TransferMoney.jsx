@@ -27,7 +27,7 @@ function TransferMoney() {
         localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:8000/api/account/transfer",
+        "http://online-banking-system-backend-yeov.onrender.com/api/account/transfer",
         {
           accountNumber,
           amount: Number(amount),

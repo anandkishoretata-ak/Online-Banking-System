@@ -64,7 +64,7 @@ function Dashboard() {
     async (token) => {
       try {
         const res = await axios.get(
-          "http://localhost:8000/api/transactions/stats",
+          "http://online-banking-system-backend-yeov.onrender.com/api/transactions/stats",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -101,7 +101,7 @@ function Dashboard() {
 
         const res =
           await axios.post(
-            "http://localhost:8000/api/users/upload-profile",
+            "http://online-banking-system-backend-yeov.onrender.com/api/users/upload-profile",
             formData,
             {
               headers: {

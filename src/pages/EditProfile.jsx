@@ -39,7 +39,7 @@ function EditProfile() {
 
       const res =
         await axios.put(
-          "http://localhost:8000/api/user/update-profile",
+          "http://online-banking-system-backend-yeov.onrender.com/api/user/update-profile",
           {
             name,
             email,

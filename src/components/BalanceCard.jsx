@@ -12,7 +12,7 @@ function BalanceCard({ showAmount }) {
           localStorage.getItem("token");
 
         const res = await axios.get(
-          "http://localhost:8000/api/account/balance",
+          "http://online-banking-system-backend-yeov.onrender.com/api/account/balance",
           {
             headers: {
               Authorization: `Bearer ${token}`,

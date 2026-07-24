@@ -21,7 +21,7 @@ function ChangePassword() {
         localStorage.getItem("token");
 
       const res = await axios.put(
-        "http://localhost:8000/api/user/change-password",
+        "http://online-banking-system-backend-yeov.onrender.com/api/user/change-password",
         {
           currentPassword,
           newPassword,

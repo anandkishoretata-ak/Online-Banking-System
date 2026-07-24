@@ -16,7 +16,7 @@ function TransactionCard() {
 
           const res =
             await axios.get(
-              "http://localhost:8000/api/transactions/history",
+              "http://online-banking-system-backend-yeov.onrender.com/api/transactions/history",
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
